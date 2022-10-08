@@ -32,7 +32,7 @@ namespace WindowsFormsApplication1
             //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
             IPAddress direc = IPAddress.Parse("192.168.56.102");
-            IPEndPoint ipep = new IPEndPoint(direc, 9050);
+            IPEndPoint ipep = new IPEndPoint(direc, 9080);
 
 
             //Creamos el socket 
@@ -56,6 +56,20 @@ namespace WindowsFormsApplication1
                     server.Receive(msg2);
                     mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
                     MessageBox.Show("La longitud de tu nombre es: " + mensaje);
+                }
+                if (Altura.Checked)
+                {
+                    // Quiere saber si es alto
+                    string mensaje = "3/" + nombre.Text + "/" + altura_text.Text;
+                    // Enviamos al servidor el nombre tecleado
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+
+                    //Recibimos la respuesta del servidor
+                    byte[] msg2 = new byte[80];
+                    server.Receive(msg2);
+                    mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                    MessageBox.Show(mensaje);
                 }
                 else
                 {
@@ -102,9 +116,5 @@ namespace WindowsFormsApplication1
           
 
         }
-
-   
-
-     
     }
 }
